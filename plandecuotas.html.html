@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Precios y Financiación</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen py-6 px-4">
+    <div class="max-w-md mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
+        <!-- Header -->
+        <div class="bg-emerald-600 px-6 py-4 text-white">
+            <h1 class="text-xl font-bold flex items-center gap-2">
+                <i class="fa-solid fa-calculator"></i> Calculadora de Precios
+            </h1>
+            <p class="text-xs text-emerald-100 mt-1">Generá presupuestos listos para WhatsApp</p>
+        </div>
+
+        <!-- Formulario -->
+        <div class="p-6 space-y-4">
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">Precio de Lista ($):</label>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-bold">$</span>
+                    <input type="number" id="precioLista" placeholder="Ej: 100000" class="w-full pl-8 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 font-medium text-lg">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">Entrega Inicial Plan Personal ($):</label>
+                <div class="relative">
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-bold">$</span>
+                    <input type="number" id="entregaInicial" placeholder="Ej: 40000" class="w-full pl-8 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 font-medium text-lg">
+                </div>
+            </div>
+
+            <hr class="border-slate-100 my-2">
+
+            <!-- Vista Previa / Resultados -->
+            <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-2 flex items-center justify-between">
+                    <span>Mensaje para WhatsApp:</span>
+                    <span class="text-xs text-emerald-600 font-normal">Se actualiza solo</span>
+                </label>
+                <textarea id="resultadoMensaje" readonly rows="11" class="w-full p-3 bg-slate-900 text-slate-100 text-sm font-mono rounded-xl resize-none focus:outline-none"></textarea>
+            </div>
+
+            <!-- Botones de Acción -->
+            <div class="grid grid-cols-2 gap-3 pt-2">
+                <button onclick="copiarMensaje()" class="bg-slate-800 hover:bg-slate-900 text-white font-medium py-3 px-4 rounded-xl transition flex items-center justify-center gap-2 cursor-pointer shadow-sm">
+                    <i class="fa-solid fa-copy"></i> Copiar
+                </button>
+                <button onclick="enviarWhatsApp()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 px-4 rounded-xl transition flex items-center justify-center gap-2 cursor-pointer shadow-sm">
+                    <i class="fa-brands fa-whatsapp text-lg"></i> Enviar
+                </button>
+            </div>
+            <div id="toast" class="text-center text-xs text-emerald-600 font-medium h-4 transition-opacity opacity-0">¡Mensaje copiado al portapapeles!</div>
+        </div>
+    </div>
+
+    <script>
+        const inputPrecio = document.getElementById('precioLista');
+        const inputEntrega = document.getElementById('entregaInicial');
+        const txtResultado = document.getElementById('resultadoMensaje');
+        const toast = document.getElementById('toast');
+
+        function formatMonto(numero) {
+            if (isNaN(numero)) return "$0";
+            return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 2 }).format(numero);
+        }
+
+        function calcular() {
+            const precio = parseFloat(inputPrecio.value) || 0;
+            const entrega = parseFloat(inputEntrega.value) || 0;
+
+            if (precio <= 0) {
+                txtResultado.value = "Ingresá un precio de lista para comenzar...";
+                return;
+            }
+
+            // Cálculos
+            const contado = precio * 0.88;
+            
+            // Tarjetas
+            const totalVisa3 = precio * 1.15;
+            const cuotaVisa3 = totalVisa3 / 3;
+
+            const totalVisa6 = precio * 1.21;
+            const cuotaVisa6 = totalVisa6 / 6;
+
+            // Plan personal
+            const saldoPersonal = Math.max(0, precio - entrega);
+            const cuotaPersonal3 = saldoPersonal / 3;
+            const cuotaPersonal4 = saldoPersonal / 4;
+            const cuotaPersonal5 = saldoPersonal / 5;
+
+            // Armar Mensaje
+            let mensaje = `📌 *Opciones de Pago y Financiación*\n\n`;
+            mensaje += `🔹 *Precio de lista:* ${formatMonto(precio)}\n`;
+            mensaje += `💵 *Efectivo / Contado (-12%):* ${formatMonto(contado)}\n\n`;
+            
+            mensaje += `💳 *Tarjeta de Crédito (Visa / Mastercard):*\n`;
+            mensaje += `• 3 cuotas de ${formatMonto(cuotaVisa3)} (Total: ${formatMonto(totalVisa3)})\n`;
+            mensaje += `• 6 cuotas de ${formatMonto(cuotaVisa6)} (Total: ${formatMonto(totalVisa6)})\n\n`;
+
+            mensaje += `🤝 *Plan Personal (Entrega de ${formatMonto(entrega)}):*\n`;
+            mensaje += `• Saldo a financiar: ${formatMonto(saldoPersonal)}\n`;
+            mensaje += `• 3 cuotas sin interés de ${formatMonto(cuotaPersonal3)}\n`;
+            mensaje += `• 4 cuotas sin interés de ${formatMonto(cuotaPersonal4)}\n`;
+            mensaje += `• 5 cuotas sin interés de ${formatMonto(cuotaPersonal5)}`;
+
+            txtResultado.value = mensaje;
+        }
+
+        function copiarMensaje() {
+            if(!inputPrecio.value) return;
+            txtResultado.select();
+            navigator.clipboard.writeText(txtResultado.value);
+            toast.style.opacity = '1';
+            setTimeout(() => { toast.style.opacity = '0'; }, 2500);
+        }
+
+        function enviarWhatsApp() {
+            if(!inputPrecio.value) return;
+            const textoCodificado = encodeURIComponent(txtResultado.value);
+            window.open(`https://api.whatsapp.com/send?text=${textoCodificado}`, '_blank');
+        }
+
+        inputPrecio.addEventListener('input', calcular);
+        inputEntrega.addEventListener('input', calcular);
+        calcular();
+    </script>
+</body>
+</html>
