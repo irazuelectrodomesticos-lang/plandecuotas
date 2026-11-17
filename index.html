@@ -66,7 +66,13 @@
 
         function formatMonto(numero) {
             if (isNaN(numero)) return "$0";
-            return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 2 }).format(numero);
+            const truncado = Math.trunc(numero);
+            return new Intl.NumberFormat('es-AR', { 
+                style: 'currency', 
+                currency: 'ARS', 
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0 
+            }).format(truncado);
         }
 
         function calcular() {
@@ -81,7 +87,7 @@
             // Cálculos base
             const contado = precio * 0.88;
             
-            // Tarjetas (Si hay entrega, el recargo de tarjeta se calcula sobre el saldo restante; si no, sobre el precio completo de lista)
+            // Tarjetas
             const baseTarjeta = Math.max(0, precio - entrega);
             const totalVisa3 = baseTarjeta * 1.15;
             const cuotaVisa3 = totalVisa3 / 3;
@@ -89,7 +95,7 @@
             const totalVisa6 = baseTarjeta * 1.21;
             const cuotaVisa6 = totalVisa6 / 6;
 
-            // Plan personal (siempre descuenta la entrega del precio de lista)
+            // Plan personal
             const saldoPersonal = Math.max(0, precio - entrega);
             const cuotaPersonal3 = saldoPersonal / 3;
             const cuotaPersonal4 = saldoPersonal / 4;
