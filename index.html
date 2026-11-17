@@ -3,59 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Precios y Financiación</title>
+    <title>IRAZÚ Electrodomésticos - Calculadora de Precios</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen py-6 px-4">
-    <div class="max-w-md mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
-        <!-- Header -->
-        <div class="bg-emerald-600 px-6 py-4 text-white">
-            <h1 class="text-xl font-bold flex items-center gap-2">
-                <i class="fa-solid fa-calculator"></i> Calculadora de Precios
-            </h1>
-            <p class="text-xs text-emerald-100 mt-1">Generá presupuestos listos para WhatsApp</p>
+<body class="bg-slate-100 text-slate-800 min-h-screen py-6 px-4">
+    <div class="max-w-md mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
+        <!-- Header con los colores del logo (Rojo Irazú y Gris) -->
+        <div class="bg-red-600 px-6 py-5 text-white text-center border-b-4 border-slate-700">
+            <h1 class="text-2xl font-black tracking-wide uppercase">IRAZÚ</h1>
+            <p class="text-xs font-semibold tracking-widest text-red-100 uppercase mt-0.5">Electrodomésticos</p>
+            <p class="text-xs text-red-100 mt-2 font-medium">Calculadora de Financiación para WhatsApp</p>
         </div>
 
         <!-- Formulario -->
         <div class="p-6 space-y-4">
             <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-1">Precio de Lista ($):</label>
+                <label class="block text-sm font-bold text-slate-700 mb-1">Precio de Lista ($):</label>
                 <div class="relative">
                     <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-bold">$</span>
-                    <input type="number" id="precioLista" placeholder="Ej: 100000" class="w-full pl-8 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 font-medium text-lg">
+                    <input type="number" id="precioLista" placeholder="Ej: 100000" class="w-full pl-8 pr-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-600 font-medium text-lg">
                 </div>
             </div>
 
             <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-1">Entrega Inicial Plan Personal ($):</label>
+                <label class="block text-sm font-bold text-slate-700 mb-1">Entrega Inicial / Anticipo ($) <span class="text-xs font-normal text-slate-500">(Opcional para Tarjeta o Plan)</span>:</label>
                 <div class="relative">
                     <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400 font-bold">$</span>
-                    <input type="number" id="entregaInicial" placeholder="Ej: 40000" class="w-full pl-8 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 font-medium text-lg">
+                    <input type="number" id="entregaInicial" placeholder="Ej: 40000" class="w-full pl-8 pr-4 py-3 bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-600 font-medium text-lg">
                 </div>
             </div>
 
-            <hr class="border-slate-100 my-2">
+            <hr class="border-slate-200 my-2">
 
             <!-- Vista Previa / Resultados -->
             <div>
-                <label class="block text-sm font-semibold text-slate-700 mb-2 flex items-center justify-between">
+                <label class="block text-sm font-bold text-slate-700 mb-2 flex items-center justify-between">
                     <span>Mensaje para WhatsApp:</span>
-                    <span class="text-xs text-emerald-600 font-normal">Se actualiza solo</span>
+                    <span class="text-xs text-red-600 font-bold">Se actualiza solo</span>
                 </label>
-                <textarea id="resultadoMensaje" readonly rows="11" class="w-full p-3 bg-slate-900 text-slate-100 text-sm font-mono rounded-xl resize-none focus:outline-none"></textarea>
+                <textarea id="resultadoMensaje" readonly rows="12" class="w-full p-3 bg-slate-900 text-slate-100 text-sm font-mono rounded-xl resize-none focus:outline-none"></textarea>
             </div>
 
             <!-- Botones de Acción -->
             <div class="grid grid-cols-2 gap-3 pt-2">
-                <button onclick="copiarMensaje()" class="bg-slate-800 hover:bg-slate-900 text-white font-medium py-3 px-4 rounded-xl transition flex items-center justify-center gap-2 cursor-pointer shadow-sm">
+                <button onclick="copiarMensaje()" class="bg-slate-700 hover:bg-slate-800 text-white font-semibold py-3 px-4 rounded-xl transition flex items-center justify-center gap-2 cursor-pointer shadow-sm">
                     <i class="fa-solid fa-copy"></i> Copiar
                 </button>
-                <button onclick="enviarWhatsApp()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 px-4 rounded-xl transition flex items-center justify-center gap-2 cursor-pointer shadow-sm">
+                <button onclick="enviarWhatsApp()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-4 rounded-xl transition flex items-center justify-center gap-2 cursor-pointer shadow-sm">
                     <i class="fa-brands fa-whatsapp text-lg"></i> Enviar
                 </button>
             </div>
-            <div id="toast" class="text-center text-xs text-emerald-600 font-medium h-4 transition-opacity opacity-0">¡Mensaje copiado al portapapeles!</div>
+            <div id="toast" class="text-center text-xs text-emerald-600 font-bold h-4 transition-opacity opacity-0">¡Mensaje copiado al portapapeles!</div>
         </div>
     </div>
 
@@ -79,28 +78,33 @@
                 return;
             }
 
-            // Cálculos
+            // Cálculos base
             const contado = precio * 0.88;
             
-            // Tarjetas
-            const totalVisa3 = precio * 1.15;
+            // Tarjetas (Si hay entrega, el recargo de tarjeta se calcula sobre el saldo restante; si no, sobre el precio completo de lista)
+            const baseTarjeta = Math.max(0, precio - entrega);
+            const totalVisa3 = baseTarjeta * 1.15;
             const cuotaVisa3 = totalVisa3 / 3;
 
-            const totalVisa6 = precio * 1.21;
+            const totalVisa6 = baseTarjeta * 1.21;
             const cuotaVisa6 = totalVisa6 / 6;
 
-            // Plan personal
+            // Plan personal (siempre descuenta la entrega del precio de lista)
             const saldoPersonal = Math.max(0, precio - entrega);
             const cuotaPersonal3 = saldoPersonal / 3;
             const cuotaPersonal4 = saldoPersonal / 4;
             const cuotaPersonal5 = saldoPersonal / 5;
 
             // Armar Mensaje
-            let mensaje = `📌 *Opciones de Pago y Financiación*\n\n`;
+            let mensaje = `📌 *IRAZÚ ELECTRODOMÉSTICOS*\n`;
+            mensaje += `📌 *Opciones de Pago y Financiación*\n\n`;
             mensaje += `🔹 *Precio de lista:* ${formatMonto(precio)}\n`;
             mensaje += `💵 *Efectivo / Contado (-12%):* ${formatMonto(contado)}\n\n`;
             
             mensaje += `💳 *Tarjeta de Crédito (Visa / Mastercard):*\n`;
+            if (entrega > 0) {
+                mensaje += `• Entrega de ${formatMonto(entrega)} + saldo financiado:\n`;
+            }
             mensaje += `• 3 cuotas de ${formatMonto(cuotaVisa3)} (Total: ${formatMonto(totalVisa3)})\n`;
             mensaje += `• 6 cuotas de ${formatMonto(cuotaVisa6)} (Total: ${formatMonto(totalVisa6)})\n\n`;
 
