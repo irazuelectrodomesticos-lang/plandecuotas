@@ -42,7 +42,7 @@
                     <span>Mensaje para WhatsApp:</span>
                     <span class="text-xs text-red-600 font-bold">Se actualiza solo</span>
                 </label>
-                <textarea id="resultadoMensaje" readonly rows="14" class="w-full p-3 bg-slate-900 text-slate-100 text-sm font-mono rounded-xl resize-none focus:outline-none"></textarea>
+                <textarea id="resultadoMensaje" readonly rows="15" class="w-full p-3 bg-slate-900 text-slate-100 text-sm font-mono rounded-xl resize-none focus:outline-none"></textarea>
             </div>
 
             <!-- Botones de Acción -->
@@ -102,6 +102,7 @@
             const cuotaPersonal3 = saldoPersonal / 3;
             const cuotaPersonal4 = saldoPersonal / 4;
             const cuotaPersonal5 = saldoPersonal / 5;
+            const cuotaPersonal6 = saldoPersonal / 6;
 
             // Armar Mensaje
             let mensaje = `📌 *IRAZÚ ELECTRODOMÉSTICOS*\n`;
@@ -122,7 +123,8 @@
             mensaje += `• 2 cuotas sin interés de ${formatMonto(cuotaPersonal2)}\n`;
             mensaje += `• 3 cuotas sin interés de ${formatMonto(cuotaPersonal3)}\n`;
             mensaje += `• 4 cuotas sin interés de ${formatMonto(cuotaPersonal4)}\n`;
-            mensaje += `• 5 cuotas sin interés de ${formatMonto(cuotaPersonal5)}`;
+            mensaje += `• 5 cuotas sin interés de ${formatMonto(cuotaPersonal5)}\n`;
+            mensaje += `• 6 cuotas sin interés de ${formatMonto(cuotaPersonal6)}`;
 
             txtResultado.value = mensaje;
         }
